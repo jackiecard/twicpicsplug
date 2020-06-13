@@ -1,0 +1,28 @@
+#canvas {
+  position: relative;
+  border: 1px solid black;
+  overflow: hidden;
+  display: inline-block;
+  font-size: 0;
+}
+
+.point {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: rgba(0,0, 0, .5);
+  border-radius: 50%;
+  border: 0;
+  left: calc(var(--x) - 30px);
+  top: calc(var(--y) - 30px);
+  border: 3px solid rgba(255, 0, 0, 0.271);
+}
+
+.point.selected {
+  border: 3px solid red;
+}
+
+#original-image {
+  visibility: hidden;
+  position: absolute;
+}

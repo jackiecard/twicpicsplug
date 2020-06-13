@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <!-- <img id="original-image" 
+    class="twic" 
+    data-src="image:example-1.jpg"/> -->
+  <div id="canvas">
+    <img id="edit-image" 
+    class="twic" 
+    data-src-transform="resize=600"
+    data-src="image:example-1.jpg"/>
+  </div>
+  <h2>Output</h2>
+  <img class="twic" id="output-image" data-src="image:example-1.jpg">
+  <div id="sidebar"></div>
+  <script src="https://6yi9s9u7.twic.pics?v1" async></script> 
+</body>
+</html>
