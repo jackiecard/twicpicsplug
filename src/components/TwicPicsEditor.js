@@ -28,6 +28,16 @@ class TwicPicsEditor {
       );
   }
 
+  setWidth(width) {
+    const widthEl = document.getElementById('output-width');
+    widthEl.value = width;
+  }
+
+  setHeight(height) {
+    const heightEl = document.getElementById('output-height');
+    heightEl.value = height;
+  }
+
   renderCanvas() {
     const canvas = document.createElement('div');
     canvas.id = 'canvas';
@@ -40,8 +50,18 @@ class TwicPicsEditor {
     const output = document.createElement('div');
     output.id = 'output';
     output.innerHTML = `
-      <h2>Output</h2>
-      <img class="twic" id="output-image" data-src="image:example-1.jpg">`;
+      <div id="output">
+        <h2>Output</h2>
+        <img class="twic" id="output-image" data-src="image:example-1.jpg">
+        <label>
+          Width:
+          <input type="text" name="width" id="output-width" />
+        </label>
+        <label>
+          Height:
+          <input type="text" name="height" id="output-height" />
+        </label>
+      </div>`;
     this.twicPicsEditor.append(canvas);
     this.twicPicsEditor.append(output);
   }

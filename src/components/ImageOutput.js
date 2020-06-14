@@ -5,7 +5,15 @@ class ImageOutput {
     this.initialPoint = point;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = this.calcHeightRatio(originalWidth, originalHeight);
-    this.transformations = 'contain=300x250/zoom=6';
+    this.transform = [
+      {
+        type: 'crop',
+        val: '300x250'
+      }
+    ];
+
+    console.log(this.handleTransform(this.transform))
+    this.transformations = this.handleTransform(this.transform);
 
     this.init();
   }
@@ -19,6 +27,14 @@ class ImageOutput {
   calcHeightRatio(originalWidth, originalHeight) {
     const scale = ((this.canvasWidth * 100) / originalWidth) / 100;
     return parseInt(originalHeight * scale);
+  }
+
+  handleProp(prop) {
+    return prop.type + '=' + prop.val;
+  }
+
+  handleTransform(transform) {
+    return transform.map(prop => this.handleProp(prop)).join('/')
   }
 
   setTransformations(newTransformation) {
@@ -38,6 +54,10 @@ class ImageOutput {
   imageEventsListener() {
     this.eventBus.on('pointOut', (data) => {
       this.setNewFocus(data);
+    });
+
+    this.eventBus.on('newTransformation', (data) => {
+      this.setTransformations(data);
     });
   }
 }
