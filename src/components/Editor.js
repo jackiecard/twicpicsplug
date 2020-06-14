@@ -13,29 +13,33 @@ class Editor {
     this.pressed = false;
   }
 
+  setPressed(payload) {
+    this.pressed = payload;
+  }
+
   handleStart(el) {
-    this.pressed = true;
-    console.log('start', el);
+    this.setPressed(true);
+    console.log('start', this.pressed);
   }
 
   handleEnd(el, that) {
-    this.pressed = false;
+    this.setPressed(false);
     this.eventBus.emit('pointOut', this.current)
     that.setcurrent(null, null, that);
-    console.log('end', el);
+    console.log('end', this.pressed);
   }
 
   handleCancel(el) {
-    this.pressed = false;
-    console.log('cancel', el);
+    this.setPressed(false);
+    console.log('cancel', this.pressed);
   }
 
   handleMove(el, that) {
-    if (!this.pressed) {
+    if (!this.current || !this.pressed) {
       return;
     }
     that.setcurrent(el.clientX, el.clientY, that);
-    console.log('move', this.current);
+    console.log('move', this.pressed);
   }
 
   setcurrent(x, y, that) {
@@ -79,10 +83,14 @@ class Editor {
   }
 
   unbindPointerEvents() {
-    this.canvas.removeEventListener("pointerdown", (e) => this.handleMovement(e, this), false);
-    this.canvas.removeEventListener("pointerup", (e) => this.handleMovement(e, this), false);
-    this.canvas.removeEventListener("pointercancel", (e) => this.handleMovement(e, this), false);
-    this.canvas.removeEventListener("pointermove", (e) => this.handleMovement(e, this), false);
+    console.log('editor unbindPointerEvents')
+    this.pressed = false;
+    this.current = null;
+    // TODO: make it work
+    // this.canvas.removeEventListener("pointerdown", (e) => this.handleMovement(e, this), false);
+    // this.canvas.removeEventListener("pointerup", (e) => this.handleMovement(e, this), false);
+    // this.canvas.removeEventListener("pointercancel", (e) => this.handleMovement(e, this), false);
+    // this.canvas.removeEventListener("pointermove", (e) => this.handleMovement(e, this), false);
   }
 }
 

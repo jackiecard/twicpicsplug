@@ -4,7 +4,6 @@ class Point {
     this.eventBus = eventBus;
     this.info = null;
     this.el = null;
-    this.currentPoint = null;
   }
 
   createPointElement(point) {
@@ -24,6 +23,7 @@ class Point {
   setCurrent(current) {
     this.currentPoint = current;
     this.eventBus.emit('currentPointUpdated', current);
+    this.eventBus.emit('handleStart');
   }
 
   handlePointMovement(e, point) {
@@ -41,6 +41,9 @@ class Point {
 
   //pointOut(data)
   unselectPoint(data) {
+    this.currentPoint = null;
+    this.eventBus.emit('currentPointUpdated', null);
+
     const point = document.getElementById(data.id);
     point.classList.remove('selected');
   }

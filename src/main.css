@@ -13,9 +13,11 @@
   background: rgba(0,0, 0, .5);
   border-radius: 50%;
   border: 0;
-  left: calc(var(--x) - 30px);
-  top: calc(var(--y) - 30px);
+  left: calc(var(--x) - 25px);
+  top: calc(var(--y) - 25px);
   border: 3px solid rgba(255, 0, 0, 0.271);
+  margin: 0;
+  padding: 0;
 }
 
 .point.selected {

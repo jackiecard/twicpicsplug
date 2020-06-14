@@ -20,7 +20,7 @@ class PointsEditor extends Editor {
     this.point = new Point(this.canvas, this.eventBus);
     this.setPointsOnCanvas();
     this.listenToEvents();
-
+    
     //inherited from Editor
     this.bindPointerEvents();
   }
