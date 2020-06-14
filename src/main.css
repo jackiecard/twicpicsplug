@@ -21,8 +21,3 @@
 .point.selected {
   border: 3px solid red;
 }
-
-#original-image {
-  visibility: hidden;
-  position: absolute;
-}

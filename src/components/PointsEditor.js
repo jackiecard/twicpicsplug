@@ -6,23 +6,23 @@ import Point from './Point';
  * @augments Editor
  */
 class PointsEditor extends Editor {
-  constructor(eventBus) {
+  constructor(points, eventBus) {
     super();
 
+    this.canvas = document.getElementById('canvas');
+    this.points = points;
     this.eventBus = eventBus;
+
+    this.init();
   }
 
-  init(id, points) {
-    const canvas = document.getElementById(id);
-    this.setCanvas(canvas);
-    this.setPoints(points);
-    this.point = new Point(canvas, this.eventBus);
+  init() {
+    this.point = new Point(this.canvas, this.eventBus);
     this.setPointsOnCanvas();
     this.listenToEvents();
-  }
-  
-  setCanvas(canvas) {
-    this.canvas = canvas;
+
+    //inherited from Editor
+    this.bindPointerEvents();
   }
 
   setPoints(points) {
@@ -45,12 +45,6 @@ class PointsEditor extends Editor {
     this.point.updatePointView(this.current);
   }
 
-  addPointToList(data) {
-    this.points.push(data);
-    this.point.createPointElement(data);
-    this.point.setPointOnCanvas(data)
-  }
-
   listenToEvents() {
     this.eventBus.on('currentPointUpdated', (data) => {
       this.setCurrent(data);
@@ -62,15 +56,6 @@ class PointsEditor extends Editor {
 
     this.eventBus.on('pointOut', (data) => {
       this.point.unselectPoint(data);
-    });
-
-    this.eventBus.on('addPoint', () => {
-      console.log('add', this.points)
-      this.addPointToList({
-        id: this.points[this.points.length -1].id + 1,
-        x: 140,
-        y: 227
-      })
     });
   }
 }

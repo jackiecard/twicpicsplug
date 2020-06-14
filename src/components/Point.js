@@ -4,6 +4,7 @@ class Point {
     this.eventBus = eventBus;
     this.info = null;
     this.el = null;
+    this.currentPoint = null;
   }
 
   createPointElement(point) {
@@ -21,6 +22,7 @@ class Point {
   }
 
   setCurrent(current) {
+    this.currentPoint = current;
     this.eventBus.emit('currentPointUpdated', current);
   }
 
