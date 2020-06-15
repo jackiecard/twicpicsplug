@@ -5,21 +5,34 @@ class ImageOutput {
     this.initialPoint = point;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = this.calcHeightRatio(originalWidth, originalHeight);
-    this.transform = [
+    this.transformations = [
       {
+        proportion: true,
         type: 'crop',
         val: '300x250'
+      },
+      {
+        type: 'zoom',
+        val: '2'
       }
     ];
 
-    console.log(this.handleTransform(this.transform))
-    this.transformations = this.handleTransform(this.transform);
+    this.transform = this.handleTransformation(this.transformations);
 
     this.init();
+    this.setWidthField();
+    this.setHeightField();
+    this.setTypeField();
+    this.setZoomField();
+
+    const updateBtn = document.getElementById('update-output');
+    updateBtn.addEventListener('click', e => {
+      this.updateProportion()
+    });
   }
 
   init() {
-    this.setNewTransform(this.transformations);
+    this.setNewTransform(this.transform);
     this.setNewFocus(this.initialPoint);
     this.imageEventsListener();
   }
@@ -33,16 +46,49 @@ class ImageOutput {
     return prop.type + '=' + prop.val;
   }
 
-  handleTransform(transform) {
+  handleTransformation(transform) {
     return transform.map(prop => this.handleProp(prop)).join('/')
   }
 
-  setTransformations(newTransformation) {
-    this.transformations = newTransformation;
+  setNewTransform(newTransformation) {
+    console.log(newTransformation)
+    this.outputImage.setAttribute('data-src-transform', newTransformation);
   }
 
-  setNewTransform(newTransformation) {
-    this.outputImage.setAttribute('data-src-transform', newTransformation);
+  updateProportion() {
+    this.transformations = this.transformations.map(t => {
+      if (t.proportion) {
+        console.log(document.getElementById('output-width').value)
+        t.val = `${document.getElementById('output-width').value}x${document.getElementById('output-height').value}`;
+        t.type = document.getElementById('output-type').value;
+      }
+      else if (t.type === 'zoom') {
+        t.val = document.getElementById('output-zoom').value;
+      }
+      return t;
+    })
+    this.transform = this.handleTransformation(this.transformations);
+    this.setNewTransform(this.transform);
+  }
+
+  setTypeField() {
+    const type = document.getElementById('output-type');
+    type.value = this.transformations.find(t => t.proportion).type
+  }
+
+  setWidthField() {
+    const width = document.getElementById('output-width');
+    width.value = this.transformations.find(t => t.proportion).val.split('x')[0]
+  }
+
+  setHeightField() {
+    const height = document.getElementById('output-height');
+    height.value = this.transformations.find(t => t.proportion).val.split('x')[1]
+  }
+
+  setZoomField() {
+    const zoom = document.getElementById('output-zoom');
+    zoom.value = this.transformations.find(t => t.type === 'zoom').val
   }
 
   setNewFocus(data) {
@@ -56,9 +102,9 @@ class ImageOutput {
       this.setNewFocus(data);
     });
 
-    this.eventBus.on('newTransformation', (data) => {
-      this.setTransformations(data);
-    });
+    // this.eventBus.on('newTransformation', (data) => {
+    //   this.setTransform(data);
+    // });
   }
 }
 
